@@ -32,7 +32,7 @@ import copy
 #%%
 # Create list of file names for the DDM 
     # Get the list of all files and directories
-path = "D:/Users/PERSONAL/Documents/psychologie Master 2/Case Studies/test files/"
+path = "D:/Users/PERSONAL/Documents/psychologie Master 2/Case Studies/test files/" #set here the path to the folder where the raw data files are
 file_list = os.listdir(path)
  
 # prints all files to check if correct 
@@ -51,7 +51,7 @@ for i in range (len(file_list)):
     #file = file_list[2]
     
     with open(file, "r") as f: # name and mode (r -> read)
-        df_ddm = pandas.read_csv(f, sep = ";") # the files are separated by ";" not ","
+        df_ddm = pandas.read_csv(f, sep = ",") # the files are separated by ";" not ","
         
     df_ddm["RT"] = df_ddm["RT"]/1000 # set the reaction to seconds instead of ms
     
@@ -64,7 +64,7 @@ for i in range (len(file_list)):
                       noise=NoiseConstant(noise=Fittable(minval=.5, maxval=5)),
                       bound=BoundConstant(B = Fittable(minval = 0.5, maxval = 2)),
                       overlay = OverlayNonDecision(nondectime=Fittable(minval=0.1, maxval=0.5)),
-                      dx=.01, dt=.01, T_dur=2)
+                      dx=.01, dt=.01, T_dur=3)
     
     # Plot model to check the effect of the parameters 
     #model_gui(model_ddm, conditions={"driftnum": list(range(0, 11))})
@@ -126,7 +126,7 @@ np.savetxt("Parameters_lockdown.csv", Parameters_ALL, header = Names, fmt='%s', 
 file = file_list[4]
 
 with open(file, "r") as f: # name and mode (r -> read)
-    df_ddm = pandas.read_csv(f, sep = ";") # the files are separated by ";" not ","
+    df_ddm = pandas.read_csv(f, sep = ",") # the files are separated by ";" not ","
 
     
 df_ddm["RT"] = df_ddm["RT"]/1000 # set the reaction to seconds instead of ms
@@ -139,7 +139,7 @@ model_ddm = Model(drift = DriftConstant(drift=Fittable(minval=-5, maxval=5)),
                   noise=NoiseConstant(noise=Fittable(minval=.5, maxval=5)),
                   bound=BoundConstant(B = Fittable(minval = 0.5, maxval = 2)),
                   overlay = OverlayNonDecision(nondectime=Fittable(minval=0.1, maxval=0.5)),
-                  dx=.01, dt=.01, T_dur=2)
+                  dx=.01, dt=.01, T_dur=3)
 # Fit the model using differential evolution and robst loss likelihood 
 fit_model = fit_adjust_model(sample = ddm_sample, model = model_ddm, 
                              fitting_method="differential_evolution", 
