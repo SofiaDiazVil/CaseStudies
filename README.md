@@ -5,7 +5,7 @@ Here below you can find a description of what each script is
 - DDM Basic.py : simplest version of the DDM model. It only calculates the drift rate, noise, boundary and non-decision time. This is the code used for the results in the paper. 
 - DDM congruency.py : DDM model that calculates the same as the Basic version, but additionally it als estimates a different drift rate and non decision time for the congruent and incongruent trials. This code was never run, it was rather made as an exercice. 
 - DDM Variance.py : DDM model that calculates the same as the Basic version, but additionally it also estimates the variance of the drift rate and non-decision time. This code wasn't used since  it takes a longer time to run and the variance was not necessary for our hypotheses. 
-- CODE PARAMETERTESTING-1.r: the code used for the analyses. It calculates the means and standard deviations of each parameter, as well as tests our models using MANOVA. It also contains our script for making the figures and plots.
+- CODE PARAMETERTESTING.r: the code used for the analyses. It calculates the means and standard deviations of each parameter, as well as tests our models using MANOVA. It also contains our script for making the figures and plots.
 
 Here below you can find the information regarding the data 
 - folder Raw Data Files : in this folder you can find one excel (CVS) file per participant. An explanation regarding how this data needs to be used can be found in the README file in this folder. 
