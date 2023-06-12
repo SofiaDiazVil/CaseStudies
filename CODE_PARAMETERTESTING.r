@@ -2,12 +2,10 @@
 # loading packages
 install.packages('pwr')
 library(pwr)
-library(ggplot2)
-
 
 # hier benoem ik de  parameters voor de power analyse
-effect.size <- 0.25  # 0.25 (small effect)
-alpha <- 0.01       # alpha
+effect.size <- 0.21  # 0.21 (small effect)
+alpha <- 0.05       # alpha
 sample <- 130        # sample size
 
 # power test anova
@@ -25,6 +23,7 @@ pacman::p_load(dlookr, dplyr, foreign, ggcorrplot, ggthemes, hablar, lavaan, MBE
 
 library(dplyr)
 library(summarytools)
+# making all the variables as numeric (except group because it only has 2 levels)
 data <- Parameters_lockdown
 colnames(data)
 group <- as.factor(data$Group)
@@ -34,66 +33,53 @@ boundry <- as.numeric(data$Boundry)
 decision <- as.numeric(data$Decision)
 
 ### Discriptives ###
-# voor elke variabele: gemiddelde en sd
+# for each variable; mean and standard deviation
 ## drift rate 
 mean(drift[group == 'Japan'], na.rm = TRUE)
 mean(drift[group == 'Scotland'], na.rm = TRUE)
-
-# voor elke variabele: gemiddelde en sd
-## depression 
 sd(drift[group == 'Japan'], na.rm = TRUE)
 sd(drift[group == 'Scotland'], na.rm = TRUE)
 
-## noise
+## non-decision time
 mean(decision[group == 'Japan'], na.rm = TRUE)
 mean(decision[group == 'Scotland'], na.rm = TRUE)
-
-# voor elke variabele: gemiddelde en sd
-## depression 
 sd(decision[group == 'Japan'], na.rm = TRUE)
 sd(decision[group == 'Scotland'], na.rm = TRUE)
 
 
 ### Analyses ####
-lm1 <- lm(drift + decision ~ group)
-confint(lm1)
-Anova(lm1, type="III")
+M1 <- lm(cbind(drift, decision) ~ group, data = data)
+anova(M1, test = "Wilks")
+confint(M1)
 
 res.man <- manova(cbind(drift, decision) ~ group, data = data)
 summary(res.man)
-summary.aov(res.man)
+summary.aov(res.man) # looking at the parameters seperately
 
 ############ COMFORMATORY ANALYSES ############
-## drift rate 
+## noise
 mean(noise[group == 'Japan'], na.rm = TRUE)
 mean(noise[group == 'Scotland'], na.rm = TRUE)
-
-# voor elke variabele: gemiddelde en sd
-## depression 
 sd(noise[group == 'Japan'], na.rm = TRUE)
 sd(noise[group == 'Scotland'], na.rm = TRUE)
 
-## noise
+## boundary
 mean(boundry[group == 'Japan'], na.rm = TRUE)
 mean(boundry[group == 'Scotland'], na.rm = TRUE)
-
-# voor elke variabele: gemiddelde en sd
-## depression 
 sd(boundry[group == 'Japan'], na.rm = TRUE)
 sd(boundry[group == 'Scotland'], na.rm = TRUE)
 
 ### Analyses ####
-lm2 <- lm(drift + decision + noise + boundry ~ group)
-confint(lm2)
-Anova(lm2, type="III")
+M2 <- lm(cbind(drift, noise, boundry, decision) ~ group, data = data)
+anova(M2, test = "Wilks")
+confint(M2)
 
+#look at each parameter seperately
 res.man <- manova(cbind(drift, decision, noise, boundry) ~ group, data = data)
 summary(res.man)
-summary.aov(res.man)
+summary.aov(res.man) # looking at the parameters seperately
 
-# boxplot 
-# ddm
-############ PLOTS ######################################################################################
+############ PLOTS ############
 
 #GGPLOT========================================================================================================================================
 jitterSize= 1
@@ -193,4 +179,3 @@ plot(decision ~ group,
      col = "pink")
 
 # ddm via ppt
-
