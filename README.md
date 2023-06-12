@@ -12,4 +12,7 @@ Here below you can find the information regarding the data
 - Parameters_lockdown_finaldataset.csv : excel file (CVS) produced after running the "DDM Basic.py". With participants that have a parameter estimation that has less than 6 decimals the values in the excel file were not automatically saved correctly (extra letters not corresponding to the parameter estimate were also saved) and thus this was corrected manually (keep only the estimates). The corrected version is the one uploaded here. 
 
 
+Here below you can find the written paper
+- Paper_Casestudies_B4.pdf : This is the written report describing the analysis and results of this study.
+
 
